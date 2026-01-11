@@ -134,6 +134,19 @@ func ChangeState(baseURL, lightID string, state map[string]interface{}) error {
 	return nil
 }
 
+func ResetState(baseURL string, lightID int) {
+	state := map[string]interface{}{
+		"on":  true,
+		"bri": 254,
+		"sat": 0,
+	}
+
+	if err := ChangeState(baseURL, fmt.Sprintf("%d", lightID), state); err != nil {
+		log.Fatalf("Error resetting light state: %v", err)
+	}
+	fmt.Println("Device reset to brightest white.")
+}
+
 func UpdateState(baseURL string, lightID int, on string, hue, sat, bri int) {
 	currentState, err := GetState(baseURL, fmt.Sprintf("%d", lightID))
 	if err != nil {
