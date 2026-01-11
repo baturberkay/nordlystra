@@ -1,5 +1,7 @@
 # Nordlystra
 
+![Go](https://github.com/baturberkay/nordlystra/actions/workflows/go.yml/badge.svg)
+
 Nordlystra is a lightweight CLI tool written in Go for controlling Philips Hue smart lights.
 
 ## Prerequisites
