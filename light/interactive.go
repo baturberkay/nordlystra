@@ -99,18 +99,18 @@ func parseCommand(input string) (deviceID int, property, value string, err error
 		return deviceID, property, "", nil
 	}
 
-	// Other properties need a value
+	// Validate property before checking for value
+	validProps := map[string]bool{"bri": true, "hue": true, "sat": true}
+	if !validProps[property] {
+		return 0, "", "", fmt.Errorf("invalid property '%s'\n\n  Available properties:\n    on/off             - Turn device on or off\n    bri  {0-255}       - Set brightness\n    hue  {0-65535}     - Set hue (color)\n    sat  {0-255}       - Set saturation", property)
+	}
+
+	// Valid properties need a value
 	if len(parts) != 4 {
 		return 0, "", "", fmt.Errorf("property '%s' requires a value\n\n  Example: id %d %s 200", property, deviceID, property)
 	}
 
 	value = parts[3]
-
-	// Validate property
-	validProps := map[string]bool{"bri": true, "hue": true, "sat": true}
-	if !validProps[property] {
-		return 0, "", "", fmt.Errorf("invalid property '%s'\n\n  Available properties:\n    on/off             - Turn device on or off\n    bri  {0-255}       - Set brightness\n    hue  {0-65535}     - Set hue (color)\n    sat  {0-255}       - Set saturation", property)
-	}
 
 	return deviceID, property, value, nil
 }
